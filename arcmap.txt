@@ -1,0 +1,110 @@
+﻿using ESRI.ArcGIS.Carto;
+using ESRI.ArcGIS.Geodatabase;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.Windows;
+
+namespace ExportHydroNetwork {
+    public partial class HydroWindow : Window {
+        public HydroWindow() {
+            InitializeComponent();
+
+            this.ButtonStart.Click += (s, e) => {
+                INetworkLayer networkLayer = ArcMap.Document.FocusMap.get_Layer(0) as INetworkLayer;
+                INetworkDataset networkDataset = networkLayer.NetworkDataset;
+                INetworkQuery networkQuery = (INetworkQuery)networkDataset;
+                IEnumNetworkElement enumNetworkElement = networkQuery.get_Elements(esriNetworkElementType.esriNETJunction);
+                INetworkElement networkElement = enumNetworkElement.Next();
+
+                List<Node> nodes = new List<Node>();
+
+                while (networkElement != null) {
+                    INetworkJunction networkJunction = (INetworkJunction)networkElement;
+                    Node node = new Node();
+
+                    for (int i = 0; i < networkJunction.EdgeCount; i++) {
+                        INetworkEdge networkEdge = (INetworkEdge)networkQuery.CreateNetworkElement(esriNetworkElementType.esriNETEdge);
+                        networkJunction.QueryEdge(i, true, networkEdge);
+
+                        switch (networkEdge.Direction) {
+                            case esriNetworkEdgeDirection.esriNEDAlongDigitized:
+                                node.Parent = networkEdge.OID;
+                                break;
+                            case esriNetworkEdgeDirection.esriNEDAgainstDigitized:
+                                node.Children.Add(networkEdge.OID);
+                                break;
+                        }
+                    }
+
+                    nodes.Add(node);
+                    networkElement = enumNetworkElement.Next();
+                }
+
+                River world = new River() {
+                    Id = -2
+                };
+                var ns = nodes.Where(n => {
+                    return n.Parent == -1;
+                });
+                foreach (var n in ns) {
+                    River r = new River() {
+                        Id = -1,
+                    };
+                    foreach (int id in n.Children) {
+                        River x = new River() {
+                            Id = id
+                        };
+                        this.AddChildren(x, nodes);
+                        r.Children.Add(x);
+                    }
+                    world.Children.Add(r);
+                }
+
+                MemoryStream stream1 = new MemoryStream();
+                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(River));
+                ser.WriteObject(stream1, world);
+                stream1.Position = 0;
+                StreamReader sr = new StreamReader(stream1);
+                this.TextBoxOutput.Text = sr.ReadToEnd();
+            };
+        }
+        private void AddChildren(River river, List<Node> nodes) {
+            var ns = nodes.FirstOrDefault(n => {
+                return n.Parent == river.Id;
+            });
+            if (ns == null) { return; }
+            foreach (int x in ns.Children) {
+                if (x == river.Id) { continue; }
+                River r = new River() {
+                    Id = x
+                };
+                this.AddChildren(r, nodes);
+                river.Children.Add(r);
+            }
+        }
+    }
+
+    public class Node {
+        public Node() {
+            this.Parent = -1;
+            this.Children = new List<int>();
+        }
+        public int Parent { get; set; }
+        public List<int> Children { get; set; }
+    }
+
+    [DataContract]
+    public class River{
+        public River(){
+            this.Id = -1;
+            this.Children = new List<River>();    
+        }
+        [DataMember(Name = "id", Order = 0)]
+        public int Id { get; set; }
+        [DataMember(Name = "c", Order = 1)]
+        public List<River> Children { get; private set; }
+    }
+}

@@ -1,0 +1,192 @@
+﻿html, body {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /*
+        Avenir LT W01 35 Light
+        Avenir LT W01 65 Medium
+        Avenir LT W01 85 Heavy
+        Avenir LT W01 45 Book
+        Avenir LT W01 55 Roman
+        AvenirLTW01-55Oblique
+        Avenir Next W01 Thin
+        AvenirNextLTW01-Heavy
+    */
+    font-family: 'Avenir LT W01 35 Light', Arial, Helvetica, sans-serif;
+}
+
+#top {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 60px;
+    background-color: #2D6CA2;
+    z-index: 10;
+}
+
+#bottom {
+    position: absolute;
+    top: 60px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: black;
+}
+
+#left {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 400px;
+}
+
+#chart {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 400px;
+    right: 0px;
+}
+
+#table {
+    position: absolute;
+    top: 400px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+#river-name {
+    position: absolute;
+    top: 0px;
+    left: 75px;
+    font-family: 'Avenir Next W01 Thin';
+    font-size: 28px;
+    color: #ffffff;
+}
+
+#river-flow {
+    position: absolute;
+    top: 75px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+}
+
+#river-flow svg .tick > text {
+    fill: #ffffff;
+}
+
+#river-flow svg .domain {
+    stroke: #ffffff;
+}
+
+#right {
+    position: absolute;
+    top: 0px;
+    left: 400px;
+    right: 0px;
+    bottom: 0px;
+}
+
+#heading {
+    position: absolute;
+    margin-top: 7px;
+    width: 100%;
+    text-align: center;
+    font-size: 36px;
+    color: #ffffff;
+}
+
+#esri-logo {
+    position: absolute;
+    margin-top: 5px;
+    height: 50px;
+    text-align: left;
+}
+
+#map {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+#help-button {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 200px;
+    height: 60px;
+    background-color: #5b89b0;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#help-button:hover {
+    background-color: #b3c8db;
+}
+
+#help-button-text {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 22px;
+    pointer-events: none;
+    color: #ffffff;
+}
+
+#help-window {
+    position: absolute;
+    top: 60px;
+    right: 0px;
+    margin-right: -200px;
+    width: 200px;
+    background: rgba(182, 255, 0, 0.3);
+    height: 100%;
+    color: #ffffff;
+}
+
+#help-window > div {
+    margin: 10px 10px 10px 10px;
+    pointer-events: none;
+}
+
+.d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.8);
+    color: #000;
+    border-radius: 2px;
+}
+
+.d3-tip:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+}
+
+.d3-tip.n:after {
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
+}
+
+.bar {
+    fill: orange;
+}
+
+.bar:hover {
+    fill: orangered;
+}
