@@ -1,7 +1,7 @@
 ﻿/* -----------------------------------------------------------------------------------
    Hydro Charting
    Develolped by the Applications Prototype Lab
-   (c) 2015 Esri | http://www.esri.com/legal/software-license  
+   (c) 2015 Esri | https://www.esri.com/legal/software-license  
 ----------------------------------------------------------------------------------- */
 
 require([
@@ -26,7 +26,7 @@ function (
         'use strict';
 
         // Constants
-        var RIVERS = 'http://services.arcgis.com/6DIQcwlPy8knb6sg/arcgis/rest/services/HydroHierarchy/FeatureServer/0';
+        var RIVERS = 'https://services.arcgis.com/6DIQcwlPy8knb6sg/arcgis/rest/services/HydroHierarchy/FeatureServer/0';
         var CHECKED = 'Hide Help';
         var UNCHECKED = 'Show Help';
         var RIVER_DEFAULT = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 255, 255, 0.3]), 1);
